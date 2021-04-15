@@ -1,124 +1,127 @@
-# Agorakube Parameters
+# ILKE Parameters
 
 Below  you can find all the parameters you can use in this file, section by section.
 
-### Certificates section
+## Global Section
 
-This section is used to custom certificates information.
-
-| Parameter | Description | Values |
-| --- | --- | --- |
-| `cn_root_ca` | Certificate authority name | <ul><li> **Depend on your deployment** </li><br/><li>  **ilkilabs** *(default)* </li></ul>|
-| `c` | Country where the certificate is issued | <ul><li> **Depend on your deployment** </li><br/><li>  **FR** *(default)* </li></ul>|
-| `st` | State where the certificate is issued | <ul><li> **Depend on your deployment** </li><br/><li>  **Ile-de-France** *(default)* </li></ul>|
-| `l` | City where the certificate is issued | <ul><li> **Depend on your deployment** </li><br/><li>  **Paris** *(default)* </li></ul>|
-| `expiry` | Certificate lifetime in hours | <ul><li> **Depend on your needs** </li><br/><li>  **87600h** *(default)* </li></ul>|
-| `rotate_full_pki` | Update all the PKI (crts, keys and crs) of your cluster. You will need to regenerate manually your Service Account Tokens, and relaunch all pods that are using them | <ul><li> **false** *(default)* </li><br/><li>  **true** </li></ul>|
-| `rotate_certs_pki` | Rotate certificates for your cluster | <ul><li> **false** *(default)* </li><br/><li>  **true** </li></ul>|
-### Components version section
-
-This section is used to custom the components version of your deployment.
+This section is used to custom global ILKE settings.
 
 | Parameter | Description | Values |
 | --- | --- | --- |
-| `etcd_release` | Version of etcd component | <ul><li> **3.3.X** or **3.4.X** </li><br/><li>  **3.4.5** *(default)* </li></ul>|
-| `kubernetes_release` | Version of kubernetes components | <ul><li> **1.15.X**, **1.16.X**, **1.17.X** or **1.18.X** </li><br/><li>  **1.18.0** *(default)* </li></ul>|
-| `delete_previous_k8s_install` | Deletion of previous installations of Kubernetes | <ul><li> **true** </li><br/><li>  **false** *(default)* </li></ul>|
+| `ilke.global.data_path` | Path where ILKE saves all config/pki/service files on deploy machine | **/var/ilke/** *(default)* |
 
-### IPs-CIDR Configurations
+## Certificates & PKI section
 
-This section is used to custom network configurations of your deployment.
-
-**Note :** It will depend on the CNI plugin used.
+This section is used to custom the PKI used for your deployment and manage Certificates lifecycle.
 
 | Parameter | Description | Values |
 | --- | --- | --- |
-| `cluster_cidr` | CIDR used for all pods deployed in your cluster | <ul><li> **Depend on your deployment** </li><br/><li>  **10.33.0.0/16** *(default)* </li></ul>|
-| `service_cluster_ip_range` | CIDR used for all services deployed in your cluster | <ul><li> **Depend on your deployment** </li><br/><li>   **10.32.0.0/16** *(default)* </li></ul>|
-| `kubernetes_service` | IP used for Kubernetes service of your cluster. **Must be** the first IP of your service CIDR ! | <ul><li> **Depend on your deployment** </li><br/><li>  **10.32.0.1** *(default)* </li></ul>|
-| `cluster_dns_ip` | IP used for DNS services deployed in your cluster | <ul><li> **Depend on your deployment** </li><br/><li>  **10.32.0.10** *(default)* </li></ul>|
-| `service_node_port_range` | Range of ports used for all NodePort services deployed in your cluster | <ul><li> **depend on your deployment** </li><br/><li>   **30000-32767** *(default)* </li></ul>|
-| `kube_proxy_mode` | Configure kube-proxy mode | <ul><li> **ipvs (default)** </li><br/><li>   **iptables** </li><br/><li>   **userspace**</li></ul>|
-| `kube_proxy_ipvs_algotithm` | Load Balancing algorithm for *IPVS Kube-proxy* mode | <ul><li> **rr** *(default - round-robin)*</li><br/><li>   **lc** (least connection) </li><br/><li>   **dh** *(destination hashing)* </li><br/><li>   **sh** *(source hashing)* </li><br/><li>   **sed** *(shortest expected delay)* </li><br/><li>   **nq** *(never queue)* </li></ul>|
+| `ilke_pki.infos.state` | State or province name added to PKI CSR | **Ile-De-France** *(default)* |
+| `ilke_pki.infos.locality` | Locality added to PKI CSR | **Paris** *(default)* |
+| `ilke_pki.infos.country` | Country added to PKI CSR | **FR** *(default)* |
+| `ilke_pki.infos.root_cn` | CommonName used for Root CA | **ILKI Kubernetes Engine** *(default)* |
+| `ilke_pki.infos.expirity` | Expirity for all PKI certificats | **+3650d** (default - 10 years)|
+| `ilke_pki.management.rotate_certificats` | Boolean used to rotate certificates | **False** (default)|
 
-### Custom features section
+## Main K8S Components Section
 
-This section is used to defined all custom features of your deployment.
+This section is used to custom K8S main components that will be deployed.
 
-| Parameter | Description | Values |
-| --- | --- | --- |
-| `runtime` | Container runtime used in your deployment | <ul><li> **containerd** *(default)* </li><br/><li>  **docker**  </li></ul>|
-| `network_cni_plugin` | CNI plugin used in your deployment | <ul><li> **calico** </li><br/><li> **flannel** </li><br/><li>  **kube-router** *(default)* </li></ul>|
-| `flannel_iface` | Indicate to Flannel the specific iface to be binded | <ul><li> **default** *(default - take the first iface)* </li><br/><li>  **Specific Iface**</li></ul>|
-| `ingress_controller` | Ingress Controller used in your deployment | <ul><li> **traefik** *(default)* </li><br/><li>  **ha-proxy**  </li><br/><li>  **nginx**  </li><br/><li>  **none**  </li></ul>|
-| `dns_server_soft` | DNS service used in your deployment | <ul><li> **CoreDNS** *(default)* </li></ul>|
-| `label_workers` | Fixed the label *node-role.kubernetes.io/worker* to all workers in your cluster | <ul><li> **false** </li><br/><li>  **true** *(default)* </li></ul>|
-| `populate_etc_hosts` | Populate */etc/hosts* file of all your nodes in the cluster | <ul><li> **no** </li><br/><li>  **yes** *(default)* </li></ul>|
-| `k8s_dashboard` | Deploy Kubernetes dashboard in your cluster | <ul><li> **false** </li><br/><li>  **true** *(default)* </li></ul>|
-| `service_mesh` | Service mesh used in your cluster | <ul><li> **none** *(default)* </li><br/><li>  **linkerd** </li></ul>|
-| `linkerd_release` | Version of LinkerD used in your cluster | <ul><li> **stable-2.6.0** *(default)* </li><br/><li>  **none** </li></ul>|
-| `install_helm` | Helm installation in your cluster | <ul><li> **false** *(default)* </li><br/><li>  **true** </li></ul>|
-| `init_helm` | Initialization of Helm | <ul><li> **false** *(default)* </li><br/><li>  **true** </li></ul>|
-| `install_kubeapps` | Installation of Kubeapps - **install_helm** and **init_helm** have to be **true** also. | <ul><li> **false** *(default)* </li><br/><li>  **true** </li></ul>|
+### ETCD
 
-### Other parameters sections
-
-Parameters for Calico CNI plugin :
+This section allows you to configure your ETCD deployment.
 
 | Parameter | Description | Values |
 | --- | --- | --- |
-| `calico_mtu` | MTU size to used in your deployment | <ul><li> **Depend on your needs** </li><br/><li>  **1440** *(default)* </li></ul>|
+| `ilke_base_components.etcd.release` | ETCD release that will be installed on etcd hosts | **v3.4.14** *(default)* |
+| `ilke_base_components.etcd.upgrade` | Upgrade current ETCD release to `ilke_base_components.etcd.release` | **False** *(default)* |
+| `ilke_base_components.etcd.check` | Check ETCD cluster Status/Size/Health/Leader when running ilke run | **True** *(default)* |
+| `ilke_base_components.etcd.data_path` | Path where ETCD save data on ETCD hosts | **/var/lib/etcd** *(default)* |
+| `ilke_base_components.etcd.backup.enabled` | Enable etcd backup Pod | **False** *(default)* |
+| `ilke_base_components.etcd.backup.crontab` | CronTab used to run ETCD Backup | **"*/30 * * * *"** *(default)* |
+| `ilke_base_components.etcd.backup.storage.enabled` | Enable persistent Storage for ETCD Backups | **False** *(default)* |
+| `ilke_base_components.etcd.backup.storage.capacity` | Storage Size used to store ETCD Backups | **10Gi** *(default)* |
+| `ilke_base_components.etcd.backup.storage.type` | Type of Storage to use when `ilke_base_components.etcd.backup.storage.enabled` is set to **True** | **hostpath** *(default)*, storageclass, persistentvolume |
+| `ilke_base_components.etcd.backup.storage.storageclass.name` | StorageClass name used to store ETCD Backups. Used only if `ilke_base_components.etcd.backup.storage.type` is set to **storageclass** | **default-jiva** *(default)* |
+| `ilke_base_components.etcd.backup.storage.persistentvolume.name` | PersistentVolume name used to store ETCD Backups. Used only if `ilke_base_components.etcd.backup.storage.type` is set to **persistentvolume** | **my-pv-backup-etcd** *(default)* |
+| `ilke_base_components.etcd.backup.storage.persistentvolume.storageclass` | StorageClass name used to create persistentvolume set in `ilke_base_components.etcd.backup.storage.persistentvolume.name`. Used only if `ike_base_components.etcd.backup.storage.type` is set to **persistentvolume** | **/var/lib/etcd** *(default)* |
+| `ilke_base_components.etcd.backup.storage.hostpath.nodename` | K8S node (master/worker/storage) where backups are stored locally. Used only if `ilke_base_components.etcd.backup.storage.type` is set to **hostpath** | **master1** *(default)* |
+| `ilke_base_components.etcd.backup.storage.hostpath.path` | Path on `ilke_base_components.etcd.backup.storage.hostpath.nodename` where ETCD backups are stored | **/var/etcd-backup** *(default)* |
 
-Parameters for etcd :
 
-| Parameter | Description | Values |
-| --- | --- | --- |
-| `encrypt_etcd_keys` | Encryption keys used for etcd - Dictionary format | <ul><li> **Depend on your deployment** </li><br/><li>  **1fJcKt6vBxMt+AkBanoaxFF2O6ytHIkETNgQWv4b/+Q=** *(default)* </li></ul> |
-| `check_etcd_install` | Display ETCD infos | <ul><li> **True** (Default) </li><br/><li>  False </li></ul> |
+### Kubernetes
 
-Parameters for Agorakube datas storage :
-
-| Parameter | Description | Values |
-| --- | --- | --- |
-| `data_path` | Path to Agorakube datas directory | <ul><li> **Depend on your deployment** </li><br/><li> **"/var/agorakube"** *(default)* </li></ul> |
-
-Parameters for etcd data location, and backups
-
-| Parameter | Description | Values |
-| --- | --- | --- |
-| `etcd_data_directory` | Directory to store etcd data on **etcd members** | <ul><li> **/var/lib/etcd/** (default) </li><br/></ul> |
-| `custom_etcd_backup_dir` | Directory where etcd leader backups are stored on **deploy** node | <ul><li> **{{data_path}}/backups_etcd/** (default if not defined) </li><br/></ul> |
-| `restoration_snapshot_file` | Path to the etcd snapshot on **deploy** node | <ul><li> **not defined** (default) </li><br/></ul> |
-
-Rook Settings
+This section allows you to configure your Kubernetes deployment.
 
 | Parameter | Description | Values |
 | --- | --- | --- |
-| `enable_rook` | Deploy Rook Ceph cluster on **storage members** | <ul><li> **False** (default) </li><br/><li>  **True** </li></ul> |
-| `rook_dataDirHostPath` | Directory where Rook data are stored on **Storage** nodes | <ul><li> **/data/rook** (default) </li><br/></ul> |
-| `enable_rook_minio` | Deploy Rook MinIO cluster on **Rook Ceph Cluster** | <ul><li> **False** (default) </li><br/><li>  **True** </li></ul> |
-| `rook_minio_infra_access_key` | MinIO Admin Access Key | <ul><li> **admin_minio** (default) </li><br/></ul> |
-| `rook_minio_infra_secret_key` | MinIO Admin Secret Key | <ul><li> **password_minio** (default) </li><br/></ul> |
+| `ilke_base_components.kubernetes.release` | Kubernetes release that will be installed on *Master/Worker/Storage* hosts |  **v1.20.4** *(default)* |
+| `ilke_base_components.kubernetes.upgrade` | Upgrade current Kubernetes release to `ilke_base_components.kubernetes.release` | **False** *(default)* |
 
+### Container Engine
 
-Harbor Settings
+This section allows you to configure your Container Engine that will be deployed on all Master/Worker/Storage hosts.
 
 | Parameter | Description | Values |
 | --- | --- | --- |
-| `install_harbor` | Deploy Harbor Registry - Warrning : **Rook Must be enabled !** | <ul><li> **False** (default) </li><br/><li>  **true** </li></ul> |
-| `harbor_admin_password` | Admin password for Harbor UI | <ul><li> **ChangeMe!** (default) </li></ul> |
-| `harbor_ingress_host` | Host entry in Ingress. Harbor will be expose at **https://{{ harbor_ingress_host }}** (Depend on your ingress configuration) | <ul><li> harbor.ilkilabs.io (default) </li></ul> |
-| `notary_ingress_host` | Host entry in Ingress. Notary will be expose at **https://{{ notary.ilkilabs.io }}** (Depend on your ingress configuration) | <ul><li> **notary.ilkilabs.io** (default) </li></ul> |
+| `ilke_base_components.container.engine`  | Container Engine to install (Containerd or Docker) on all Master/Worker/Storage hosts |  **containerd** *(default)*, or docker |
+| `ilke_base_components.container.release` | Release of Container Engine to install - Supported only if `ilke_base_components.container.engine` set to *docker*  | If **""** install latest release *(default)* |
+| `ilke_base_components.container.upgrade` | Upgrade current Container Engine release to `ilke_base_components.container.release` | **Will be available soon** (No effect) |
 
-Monitoring Settings
+## Network Settings
 
-| Parameter | Description | Values |
-| --- | --- | --- |
-| `enable_monitoring` | Deploy monitoring - Warrning : **Rook Must be enabled !** | <ul><li> **False** (default) </li><br/><li>  **true** </li></ul> |
-
-
-Others settings:
+This section allows you to configure your K8S cluster network settings.
 
 | Parameter | Description | Values |
 | --- | --- | --- |
-| `kube_apiserver_enable_admission_plugins` | List of admission plugins to be enabled | <ul><li> **Depend on your deployment** </li><br/></ul> |
+| `ilke_network.cni_plugin` | CNI plugin used to enable K8S hosts Networking | **calico** *(default)*, kube-router |
+| `ilke_network.mtu` | MTU for CNI plugin. Auto-MTU if set to **0**. Only used if `ilke_network.cni_plugin` is set to **calico** | **0** *(default)* |
+| `ilke_network.cidr.pod` | PODs CIDR network | **10.33.0.0/16** *(default)* |
+| `ilke_network.cidr.service` | Service CIDR network | **10.32.0.0/24** *(default)* |
+| `ilke_network.service_ip.kubernetes` | ClusterIP of *default.kubernetes* service. Should be the first IP available in `ilke_network.cidr.service` | **10.32.0.1** *(default)* |
+| `ilke_network.service_ip.coredns` | ClusterIP of *kube-system.kube-dns* service. | **10.32.0.10** *(default)* |
+| `ilke_network.nodeport.range` | Range of allowed ports usable by NodePort services | **30000-32000** *(default)* |
+| `ilke_network.external_loadbalancing.enabled` | Enable External LoadBalancing in ARP mode. Working only if On-Prem deployments | **False** *(default)* |
+| `ilke_network.external_loadbalancing.ip_range` | IPs Range, or CIDR used by External LoadBalancer to assign External IPs  | **10.10.20.50-10.10.20.250** *(default range)* |
+| `ilke_network.external_loadbalancing.secret_key` | Security Key : Generate a custom key with : `openssl rand -base64 128` | **a default insecure key** *(Change it !)* |
+| `ilke_network.kube_proxy.mode` | Kube-Proxy mode. iptables/ipvs. IPVS > IPTABLES | **ipvs** *(default)* |
+| `ilke_network.kube_proxy.algorithm` | Default ClusterIP loadBalancing Algorithm : rr,lc,dh,sh,sed,nq. Only supported if IPVS | **rr** *(default Round-Robin)* |
+
+
+## ILKE features
+
+This section allows you to configure your K8S features.
+
+| Parameter | Description | Values |
+| --- | --- | --- |
+| `ilke_features.storage.enabled` | Enable Storage feature - OpenEBS based | **False** *(default)* |
+| `ilke_features.storage.release` | OpenEBS release to be installed | **2.5.0** *(default)* |
+| `ilke_features.storage.jiva.data_path` | Path where OpenEBS store Jiva volumes on Storage Nodes | **/var/openebse** *(default)* |
+| `ilke_features.storage.jiva.fs_type` | Jiva FS types | **ext4** *(default)* |
+| `ilke_features.storage.hostpath.data_path` | Path where OpenEBS store HostPath volumes on Pod node | **False** *(default)* |
+| `ilke_features.dashboard.enabled` | Enable Kubernetes dashboard | **False** *(default)* |
+| `ilke_features.dashboard.generate_admin_token` | Generate a default admin user + save token to /root/.kube/dashboardamin on Deploy node | **False** *(default)* |
+| `ilke_features.metrics_server.enabled` | Enable Metrics-Server | **False** *(default)* |
+| `ilke_features.ingress.controller` | Ingress Controller to install : nginx, ha-proxy, traefik | **nginx** *(default)* |
+| `ilke_features.ingress.release` | Ingress controller release to install. Only used if `ilke_features.ingress.controller` set to "nginx" | **False** *(default)* |
+| `ilke_features.monitoring.enabled` | Enable Monitoring | **False** *(default)* |
+| `ilke_features.monitoring.persistent` | Persist Monitoring Data | **False** *(default)* |
+| `ilke_features.monitoring.admin.user` | Default Grafana admin user | **administrator** *(default)* |
+| `ilke_features.monitoring.admin.password` | Default grafana admin password | **P@ssw0rd** *(default)* |
+
+## ILKE other settings
+This section allows you to configure some other settings
+
+| Parameter | Description | Values |
+| --- | --- | --- |
+| `ilke_populate_etc_hosts` | Add to all hostname/IPs of ILKE Cluster to /etc/hosts file of all hosts. Use it only if you don't have DNS server. | **False** *(default)* |
+| `ilke_encrypt_etcd_keys` | Array of keys/algorith used to crypt/decrypt data in etcd? Generate with : `head -c 32 /dev/urandom | base64` | **changeME !** *(default)* |
+| `restoration_snapshot_file` | ETCD backup path to be restored | **none** *(default)* |
+
+# Kubernetes deployment
+
+Once all configuration files are set, run the following command to launch the Ansible playbook that will deploy the pre-configured Kubernetes cluster :
+
+```
+sudo ansible-playbook ilke.yaml
+```
