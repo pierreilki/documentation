@@ -4,7 +4,7 @@ repo_url: https://github.com/pierreilki/documentation
 repo_name: GitHub
 edit_uri: https://github.com/pierreilki/documentation/tree/master/docs
 site_description: This site provide a full documentation of ILKE Kubernetes Distribution.
-copyright: Copyright  &#169; 2020  <a href="https://www.ilki.fr/">ILKI - ILKILABS</a>
+copyright: Copyright  &#169; 2021  <a href="https://www.ilki.fr/">ILKI - ILKILABS</a>
 nav:
     - ILKE: index.md
     - User Guide:
