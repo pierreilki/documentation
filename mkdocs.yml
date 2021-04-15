@@ -1,13 +1,12 @@
-site_name: Welcome to AgoraKube Docs
-site_url: https://github.com/ilkilab/agorakube
-repo_url: https://github.com/ilkilab/agorakube-docs
+site_name: Welcome to ILKE Docs
+site_url: https://github.com/ilkilabs/ilke
+repo_url: https://github.com/pierreilki/documentation
 repo_name: GitHub
-edit_uri: https://github.com/ilkilab/agorakube-docs/tree/master/www/docs
-site_description: This site provide a full documentation of Agorakube Kubernetes Distribution.
+edit_uri: https://github.com/pierreilki/documentation/tree/master/docs
+site_description: This site provide a full documentation of ILKE Kubernetes Distribution.
 copyright: Copyright  &#169; 2020  <a href="https://www.ilki.fr/">ILKI - ILKILABS</a>
-google_analytics: ['UA-53430005-2', 'agorakube.ilkilabs.io']
 nav:
-    - Agorakube: index.md
+    - ILKE: index.md
     - User Guide:
         - Quickstart: main/main.md
         - Instructions: main/instructions.md
@@ -15,7 +14,7 @@ nav:
         - Parameters: main/parameters.md
         - Manage ETCD: main/etcd_management.md
     - Tutorials:
-        - Deploy Agorakube VirtualBox: tutorials/deploy_agorakube.md
+        - Deploy ILKE VirtualBox: tutorials/deploy_agorakube.md
     - About:
 #       - Release Notes: about/release-notes.md
         - Contributing: about/contributing.md
@@ -35,7 +34,7 @@ markdown_extensions:
 extra:
   social:
     - type: 'github'
-      link: 'https://github.com/ilkilab/agorakube'
+      link: 'https://github.com/ilkilabs/ilke'
     - type: 'twitter'
       link: 'https://twitter.com/ClouDesigner'
     - type: 'linkedin'
