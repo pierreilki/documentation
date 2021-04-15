@@ -31,9 +31,9 @@ You can, for exemple, set a local test lab for Agorakube-docs using Git and Dock
 
 1) SetUp the dev environment:
 ```
-git clone https://github.com/ilkilab/agorakube-docs.git
-docker run -d -p 80:80 --mount type=bind,source="$(pwd)"/agorakube-docs/www/,target=/var/site agorakube/test-agorakube-docs:v1
+git clone https://github.com/pierreilki/documentation.git
+docker run -d -p 80:80 --mount type=bind,source="$(pwd)"/documentation/,target=/var/site agorakube/test-agorakube-docs:v1
 ```
 2) Open your Browser and go to http://[IP_DOCKER_NODE]
 
-3) Edit files under ./agorakube-docs/www/. Website will be automatically updated.
+3) Edit files under ./agorakube-docs/. Website will be automatically updated.
