@@ -1,0 +1,42 @@
+site_name: Welcome to AgoraKube Docs
+site_url: https://github.com/ilkilab/agorakube
+repo_url: https://github.com/ilkilab/agorakube-docs
+repo_name: GitHub
+edit_uri: https://github.com/ilkilab/agorakube-docs/tree/master/www/docs
+site_description: This site provide a full documentation of Agorakube Kubernetes Distribution.
+copyright: Copyright  &#169; 2020  <a href="https://www.ilki.fr/">ILKI - ILKILABS</a>
+google_analytics: ['UA-53430005-2', 'agorakube.ilkilabs.io']
+nav:
+    - Agorakube: index.md
+    - User Guide:
+        - Quickstart: main/main.md
+        - Instructions: main/instructions.md
+        - Configuration: main/configurations.md
+        - Parameters: main/parameters.md
+        - Manage ETCD: main/etcd_management.md
+    - Tutorials:
+        - Deploy Agorakube VirtualBox: tutorials/deploy_agorakube.md
+    - About:
+#       - Release Notes: about/release-notes.md
+        - Contributing: about/contributing.md
+        - License: about/license.md
+theme:
+    name: readthedocs
+    custom_dir: custom_theme/ 
+plugins:
+    - search
+#    - git-revision-date-localized
+markdown_extensions:
+  - admonition
+  - codehilite:
+      guess_lang: false
+  - toc:
+      permalink: true
+extra:
+  social:
+    - type: 'github'
+      link: 'https://github.com/ilkilab/agorakube'
+    - type: 'twitter'
+      link: 'https://twitter.com/ClouDesigner'
+    - type: 'linkedin'
+      link: 'https://www.linkedin.com/company/ilki'
