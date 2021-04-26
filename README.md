@@ -1,6 +1,8 @@
 # documentation
 https://test.ilkilabs.io
-https://pierreilki.github.io/documentation/
+
+
+https://pierreilki.github.io/documentation/ (CNAME)
 
 # The Agorakube documentation website
 
